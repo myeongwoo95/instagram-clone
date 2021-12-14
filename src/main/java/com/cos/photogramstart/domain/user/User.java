@@ -25,7 +25,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 번호 증가 전략이 데이터베이스를 따라간다.(mysql = autoincreasement, oracle= sequence)
 	private int id; // Long으로 해야하는데 토이프로젝트이니까
 	
-	@Column(unique = true)
+	@Column(length = 20, unique = true)
 	private String username;
 	private String password;
 	
