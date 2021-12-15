@@ -1,12 +1,21 @@
 package com.cos.photogramstart.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.photogramstart.domain.user.User;
+import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.AuthService;
 import com.cos.photogramstart.web.dto.Auth.SignupDto;
 
@@ -30,14 +39,30 @@ public class AuthController {
 		return "auth/signup";
 	}
 	
-	//CSRF 토큰 해제 설정 or 토큰도 함께 보내야함
-	@PostMapping("/auth/signup")
-	public String signup(SignupDto signupDto) {
-		//User < - signupDto
-		User user = signupDto.toEntity();
-		User userEntity = authService.회원가입(user);
-		System.out.println(userEntity);
-		return "auth/signin";
+	@PostMapping("/auth/signup") //CSRF 토큰 해제 설정 or 토큰도 함께 보내야함
+	//첫번째 파라미터에서 에러가 발생하면, 오른쪽 파라미터로 담아준다.
+	public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			
+			for(FieldError error: bindingResult.getFieldErrors()) { // 모든 error를 담는다.
+				errorMap.put(error.getField(), error.getDefaultMessage());
+				System.out.println(error.getDefaultMessage());
+			}
+			//문자열만 넘어가기 때문에 error Message가 담겨져있는 errorMap을 넘기질 못해서 CustomException을 만들어주고 그걸 사용한다.
+			//throw new RuntimeException("유효성 검사 실패함"); 
+			
+			throw new CustomValidationException("유효성 검사 실패함", errorMap);
+			
+		}else {
+			//User < - signupDto
+			User user = signupDto.toEntity();
+			User userEntity = authService.회원가입(user);
+			System.out.println(userEntity);
+			return "auth/signin";
+		}
+		
 	}
 	
 	

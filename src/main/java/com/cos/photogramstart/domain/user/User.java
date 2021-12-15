@@ -27,12 +27,18 @@ public class User {
 	
 	@Column(length = 20, unique = true)
 	private String username;
+	
+	@Column(nullable=false)
 	private String password;
 	
+	@Column(nullable=false)
 	private String name;
 	private String webstie;
 	private String bio; //자기소개
+	
+	@Column(nullable=false)
 	private String email;
+	
 	private String phone;
 	private String gender;
 	
