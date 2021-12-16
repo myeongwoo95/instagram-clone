@@ -24,6 +24,5 @@ public class AuthService {
 		user.setRole("ROLE_USER");
 		User userEntity = userReposeRepository.save(user); // return type : S save(S entity);
 		return userEntity;
-		
 	}
 }
