@@ -33,7 +33,7 @@ public class User {
 	
 	@Column(nullable=false)
 	private String name;
-	private String webstie;
+	private String website;
 	private String bio; //자기소개
 	
 	@Column(nullable=false)
