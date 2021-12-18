@@ -21,7 +21,8 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update #데이터가 유지되어 남아있고 create로 바꾸면 데이터를 insert하고 서버를 재실행하면 insert된 데이터는 다 사라진다.
+      #데이터가 유지되어 남아있고 create로 바꾸면 데이터를 insert하고 서버를 재실행하면 insert된 데이터는 다 사라진다. 실제 프로젝트 상용화시 none으로 바꿔야한다.
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true

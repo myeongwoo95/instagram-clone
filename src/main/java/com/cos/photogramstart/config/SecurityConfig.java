@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable(); // csrf 비활성화
 		
 		http.authorizeRequests()
-			.antMatchers("/",  "/user/**", "/image/**", "/subcribe/**", "/comments/**").authenticated() //다음 요청은 인증이 필요하고, 권한이 없으면 loginPage("/auth/signin")로 돌림
+			.antMatchers("/",  "/user/**", "/image/**", "/subcribe/**", "/comments/**", "api/**").authenticated() //다음 요청은 인증이 필요하고, 권한이 없으면 loginPage("/auth/signin")로 돌림
 			.anyRequest().permitAll() // 그외 모든 요청은 허용하겠다.
 			.and()
 			.formLogin() // 로그인 페이지와 기타 로그인 처리 및 성공 실패 처리를 사용하겠다는 의미, formLogin은 form안의 input 태그들로 로그인하는것
