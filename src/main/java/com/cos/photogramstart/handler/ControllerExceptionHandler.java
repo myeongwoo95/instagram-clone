@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.photogramstart.handler.ex.CustomApiException;
+import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.util.Script;
@@ -35,18 +36,10 @@ public class ControllerExceptionHandler {
 		 return Script.back(e.getErrorMap().toString());
 	 }
 	 */
-	 
-	 // 방법3
-	 // Controller로 custom.jsp 반환 
 	
-	 @ExceptionHandler(CustomValidationException.class) 
-	 public String validationException(CustomValidationException e) {
-		 return Script.back(e.getErrorMap().toString());
-	 }
-	 
-	 @ExceptionHandler(CustomValidationApiException.class) 
-	 public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
-		 return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
+	 @ExceptionHandler(CustomException.class) 
+	 public String customException(CustomException e) {
+		 return Script.back(e.getMessage());
 	 }
 	 
 	 @ExceptionHandler(CustomApiException.class) 
@@ -54,4 +47,18 @@ public class ControllerExceptionHandler {
 		 return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), null), HttpStatus.BAD_REQUEST);
 	 }
 	
+	 @ExceptionHandler(CustomValidationException.class) 
+	 public String validationException(CustomValidationException e) {
+		 if(e.getErrorMap() == null) {
+			 return Script.back(e.getMessage());
+		 }else {
+			 return Script.back(e.getErrorMap().toString());
+		 }
+	 }
+	 
+	 @ExceptionHandler(CustomValidationApiException.class) 
+	 public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
+		 return new ResponseEntity<>(new CMRespDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
+	 }
+	 
 }

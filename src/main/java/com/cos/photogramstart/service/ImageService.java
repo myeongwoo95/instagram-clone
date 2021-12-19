@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.cos.photogramstart.config.auth.PrincipalDetails;
+import com.cos.photogramstart.domain.image.Image;
 import com.cos.photogramstart.domain.image.ImageRepository;
 import com.cos.photogramstart.web.dto.image.ImageUploadDto;
 
@@ -30,12 +31,18 @@ public class ImageService {
 		
 		Path imageFilePath = Paths.get(uploadFolder+imageFileName);
 		
-		//통신, I/O -> 예외가 발생할 수 있다.
+		// 통신, I/O 작업은 예외가 발생할 수 있다.
 		try {
 			Files.write(imageFilePath, imageUploadDto.getFile().getBytes());; //byte화 시켜서 넣어야한다.
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		// image 테이블에 저장
+		Image image = imageUploadDto.toEntity(imageFileName, principalDetails.getUser());
+		Image imageEntity = imageRepository.save(image);
+		
+		System.out.println(imageEntity);
 		
 	}
 	
