@@ -20,8 +20,8 @@ public class UserController {
 	
 	@GetMapping("/user/{id}")
 	public String profile(@PathVariable int id, Model model) {
-		User user = userService.회원프로필(id);
-		model.addAttribute("user", user);
+		User userEntity = userService.회원프로필(id);
+		model.addAttribute("user", userEntity);
 		return "/user/profile";
 	}
 	
@@ -29,7 +29,7 @@ public class UserController {
 	public String update(@PathVariable int id, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 		//세션 > SecurityContextHolder > Authentication객체 > PrincipalDetails객체 > User객체
 		
-		System.out.println("세션 정보: " + principalDetails.getUser()); // 이 방법 사용
+		//System.out.println("세션 정보: " + principalDetails.getUser()); // 이 방법 사용
 		
 		// Authentication auth =  SecurityContextHolder.getContext().getAuthentication();
 		// System.out.println("직접 찾은 세션 정보:" + ((PrincipalDetails)auth.getPrincipal()).getUser()); // getPrincipal() 반환값은 오브젝트라 캐스팅 필요
