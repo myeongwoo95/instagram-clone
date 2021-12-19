@@ -47,7 +47,7 @@
 					<div class="item__title">웹사이트</div>
 					<div class="item__input">
 						<input type="text" name="website" placeholder="웹 사이트"
-							value="" />
+							value="${principal.user.website}" />
 					</div>
 				</div>
 				<div class="content-item__06">

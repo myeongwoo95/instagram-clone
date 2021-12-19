@@ -47,7 +47,7 @@ public class UserApiController {
 		}else {
 			User userEntity = userService.회원수정(id, userUpdateDto.toEntity()); // service로 전달할 객체 데이터는 항상 Dto가 아니라 Entity!!
 			principalDetails.setUser(userEntity); // ★update 이후에 session 정보를 초기화 해주어야한다. 그래야 바뀐 값이 화면에 적용된다!
-			return new CMRespDto<>(1, "회원수정완료", userEntity); // 응답시에 userEntity의 모든 getter 함수가 호출되고 JSON으로 파싱하여 응답한다.
+			return new CMRespDto<>(1, "회원수정완료", userEntity); // 응답시에 userEntity의 모든 getter 함수가 호출되고 JSON으로 파싱하여 응답한다.(MessageConverter 발동)
 		}
 		
 	}
