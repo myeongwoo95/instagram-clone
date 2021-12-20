@@ -124,11 +124,12 @@
 		<button onclick="closePopup('.modal-image')">취소</button>
 	</div>
 </div>
-
 <!--프로필사진 바꾸기 모달end-->
 
+<!-- 팔로우 리스트 -->
 <div class="modal-subscribe">
 	<div class="subscribe">
+	
 		<div class="subscribe-header">
 			<span>구독정보</span>
 			<button onclick="modalClose()">
@@ -138,6 +139,7 @@
 
 		<div class="subscribe-list" id="subscribeModalList">
 
+			<!-- item -->
 			<div class="subscribe__item" id="subscribeModalItem-1">
 				<div class="subscribe__img">
 					<img src="#" onerror="this.src='/images/person.jpeg'"/>
@@ -149,24 +151,12 @@
 					<button class="cta blue" onclick="toggleSubscribeModal(this)">구독취소</button>
 				</div>
 			</div>
-
-
-			<div class="subscribe__item" id="subscribeModalItem-2">
-				<div class="subscribe__img">
-					<img src="#" onerror="this.src='/images/person.jpeg'"/>
-				</div>
-				<div class="subscribe__text">
-					<h2>ssar</h2>
-				</div>
-				<div class="subscribe__btn">
-					<button class="cta blue" onclick="toggleSubscribeModal(this)">구독취소</button>
-				</div>
-			</div>
+			<!-- item -->
+			
 		</div>
 	</div>
-
 </div>
-
+<!-- End 팔로우 리스트 끝-->
 
 <script src="/js/profile.js"></script>
 
