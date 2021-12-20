@@ -19,13 +19,17 @@ public class SubscribeService {
 		try {
 			subscribeRepository.mSubscribe(fromUserid, toUserId);
 		} catch (Exception e) {
-			throw new CustomApiException("이미 구독을 하였습니다.");
+			throw new CustomApiException("에러가 발생하였습니다.");
 		}
 	}
 	
 	@Transactional
 	public void 구독취소하기(int fromUserid, int toUserId) {
-		subscribeRepository.mSubscribe(fromUserid, toUserId); 
+		try {
+			subscribeRepository.mUnSubscribe(fromUserid, toUserId); 
+		} catch (Exception e) {
+			throw new CustomApiException("에러가 발생하였습니다.");
+		}
 	}
 
 }
