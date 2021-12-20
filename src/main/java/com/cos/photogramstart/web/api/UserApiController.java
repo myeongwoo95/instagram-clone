@@ -39,8 +39,18 @@ public class UserApiController {
 		
 		List<SubscribeDto> subscribeDto = subscribeService.구독리스트(principalDetails.getUser().getId(), pageUserId);
 		
-		return new ResponseEntity<>(new CMRespDto<>(1, "구독자 정보 리스트 가져오기 성공", subscribeDto), HttpStatus.OK);
+		return new ResponseEntity<>(new CMRespDto<>(1, "팔로우 리스트 가져오기 성공", subscribeDto), HttpStatus.OK);
 	}
+	
+	@GetMapping("/api/user/{pageUserId}/followers")
+	public ResponseEntity<?> followerList(@PathVariable int pageUserId, @AuthenticationPrincipal PrincipalDetails principalDetails){
+		
+		List<SubscribeDto> subscribeDto = subscribeService.팔로워리스트(principalDetails.getUser().getId(), pageUserId);
+		
+		return new ResponseEntity<>(new CMRespDto<>(1, "팔로워 리스트 가져오기 성공", subscribeDto), HttpStatus.OK);
+	}
+	
+	
 	
 	@PutMapping("/api/user/{id}")
 	public CMRespDto<?> update(

@@ -49,6 +49,30 @@ public class SubscribeService {
 		return subscribeDtos;
 	}
 	
+	public List<SubscribeDto> 팔로워리스트(int principalId, int pageUserId) {
+		
+		// 쿼리준비
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT u.id, u.username, u.profileImageUrl, ");
+		sb.append("if ((SELECT TRUE FROM subscribe WHERE fromUserId = ? AND toUserId = u.id), 1, 0) subscribeState, ");
+		sb.append("if ((?=u.id), 1, 0) equalUserState ");
+		sb.append("FROM user u INNER JOIN subscribe s ");
+		sb.append("ON u.id = s.fromUserId ");
+		sb.append("WHERE s.toUserId = ?");
+		
+		// 쿼리완성
+		Query query = em.createNativeQuery(sb.toString())// java.persistence.Query
+				.setParameter(1, principalId)
+				.setParameter(2, principalId)
+				.setParameter(3, pageUserId);
+		
+		// 쿼리실행
+		JpaResultMapper result = new JpaResultMapper();
+		List<SubscribeDto> subscribeDtos = result.list(query, SubscribeDto.class);
+		
+		return subscribeDtos;
+	}
+	
 	@Transactional
 	public void 구독하기(int fromUserid, int toUserId) {
 		try {
@@ -66,5 +90,7 @@ public class SubscribeService {
 			throw new CustomApiException("에러가 발생하였습니다.");
 		}
 	}
+
+	
 
 }
