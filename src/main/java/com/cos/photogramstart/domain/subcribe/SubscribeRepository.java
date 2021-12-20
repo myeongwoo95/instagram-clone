@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface SubscribeRepository extends JpaRepository<Subscribe, Integer>{
 
 		@Modifying // insert, delete, update를 네이티브 쿼리로 작성하려면 해당 어노테이션이 필요!!
-		@Query( // 네이티브 쿼리는 가급적 사용하지 않는것이 좋다, 복잡한 쿼리나 동적인 쿼리를 작성하기 위한 대안으로 mybatis, QueryDSL(추천)가 있다.
+		@Query( 
 				value = "INSERT INTO subscribe(fromUserId, toUserId, createDate) VALUES(:fromUserId, :toUserId, now())",
 				nativeQuery = true)
 		// 성공하면 변경된 행의 개수가 리턴, 실패하면 -1, 리턴된 값으로 핸들링 하는건 옛날 방식
@@ -19,4 +19,15 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Integer>{
 				value = "DELETE FROM subscribe WHERE fromUserId = :fromUserId AND toUserId = :toUserId",
 				nativeQuery = true)
 		void mUnSubscribe(int fromUserId, int toUserId);
+		
+		
+		@Query(value = "SELECT COUNT(*) FROM subscribe WHERE fromUserId = :principalId AND toUserId = :pageUserId", nativeQuery = true)
+		int mSubscribeState(int principalId, int pageUserId);
+		
+		@Query(value = "SELECT COUNT(*) FROM subscribe WHERE fromUserId = :pageUserId", nativeQuery = true)
+		int mSubscribeCount(int pageUserId);
+		
+		@Query(value = "SELECT COUNT(*) FROM subscribe WHERE toUserId = :pageUserId", nativeQuery = true)
+		int mSubscribeFollowerCount(int pageUserId);
+		
 }
