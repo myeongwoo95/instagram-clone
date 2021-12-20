@@ -8,6 +8,7 @@ import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
 import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
+import com.cos.photogramstart.web.dto.user.UserProfileDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,12 +20,18 @@ public class UserService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Transactional(readOnly = true)
-	public User 회원프로필(int userId) {
-		User userEntity = userRepository.findById(userId).orElseThrow(()->{
+	public UserProfileDto 회원프로필(int pageUserId, int principalId) {
+		UserProfileDto dto = new UserProfileDto();
+		
+		User userEntity = userRepository.findById(pageUserId).orElseThrow(()->{
 			throw new CustomException("해당 프로필 페이지는 없는 페이지 입니다.");
 		});
 		
-		return userEntity;
+		dto.setUser(userEntity);
+		dto.setPageOwnerState(pageUserId == principalId); // 1은 페이지 주인, -1은 주인이 아님
+		dto.setImageCount(userEntity.getImages().size());
+		
+		return dto;
 	}
 	
 	@Transactional
