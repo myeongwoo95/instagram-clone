@@ -15,6 +15,7 @@ import javax.persistence.UniqueConstraint;
 
 import com.cos.photogramstart.domain.subcribe.Subscribe;
 import com.cos.photogramstart.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,7 @@ public class Image { // N, 1 = N : 1
 	private String caption;
 	private String postImageUrl;
 	
+	@JsonIgnoreProperties({"images"})
 	@JoinColumn(name = "userId")
 	@ManyToOne
 	private User user; // 1, 1 = N : 1
