@@ -49,6 +49,9 @@ public class Image { // N, 1 = N : 1
 	@Transient // javax.Persistence
 	private boolean likeState;
 	
+	@Transient // javax.Persistence
+	private int likeCount;
+	
 	// 댓글
 	
 	private LocalDateTime createDate;
