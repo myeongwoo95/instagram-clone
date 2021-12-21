@@ -47,7 +47,6 @@ public class Likes { // N
 	@ManyToOne
 	private User user; // 1
 	
-	
 	private LocalDateTime createDate;
 	@PrePersist // @PrePersist는 DB에 Insert 되기 직전에 실행
 	public void createDate() {

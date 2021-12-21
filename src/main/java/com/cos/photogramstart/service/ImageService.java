@@ -30,6 +30,18 @@ public class ImageService {
 	@Transactional(readOnly = true) // 영속성 컨텍스트 변경 감지를 해서, 더치체킹, flush(반영) X
 	public Page<Image> 이미지스토리(int principalId, Pageable pageable){
 		Page<Image> images = imageRepository.mStory(principalId, pageable);
+		
+		// images에 좋아요 상태 담기
+		images.forEach(image -> {
+			
+			image.getLikes().forEach(like ->{  // 해당 이미지에 좋아요한 사람들을 모두 찾아서
+				if(like.getUser().getId() == principalId) {  // 현재 로그인한 유저가 이 이미지를 좋아요를 했는지 안했는지 찾는것
+					image.setLikeState(true);
+				}
+			});
+			
+		});
+		
 		return images;
 	}
 	

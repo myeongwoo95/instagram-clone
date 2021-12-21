@@ -30,6 +30,7 @@ function storyLoad() {
 
 function getStoryItem(image) {
 	let item = `<div class="story-list__item">
+	
 						<div class="sl__item__header">
 							<div>
 								<img class="profile-image" src="/upload/${image.user.profileImageUrl}"
@@ -44,10 +45,17 @@ function getStoryItem(image) {
 					
 						<div class="sl__item__contents">
 							<div class="sl__item__contents__icon">
-					
-								<button>
-									<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>
-							</button>
+								<button>`;
+								
+									if(image.likeState){
+										item += `<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`
+									}else{
+										item += `<i class="far fa-heart" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`
+									}
+									
+									
+									item += `
+								</button>
 						</div>
 					
 						<span class="like"><b id="storyLikeCount-1">3 </b>likes</span>
@@ -74,7 +82,7 @@ function getStoryItem(image) {
 						<div class="sl__item__input">
 							<input type="text" placeholder="댓글 달기..." id="storyCommentInput-1" />
 							<button type="button" onClick="addComment()">게시</button>
-							</div>
+						</div>
 					
 						</div>
 					</div>`;
@@ -101,6 +109,7 @@ $(window).scroll(() => {
 // (3) 좋아요, 안좋아요
 function toggleLike(imageId) {
 	let likeIcon = $(`#storyLikeIcon-${imageId}`);
+	
 	if (likeIcon.hasClass("far")) {
 		likeIcon.addClass("fas");
 		likeIcon.addClass("active");
