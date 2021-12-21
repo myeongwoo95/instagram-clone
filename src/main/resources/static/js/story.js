@@ -8,14 +8,16 @@
  */
 
 // (1) 스토리 로드하기
+let page = 0;
+
 function storyLoad() {
 	$.ajax({
-			url: `/api/image/`,
+			url: `/api/image?page=${page}`,
 			dataType: "json"
 		}).done(res => {
 			console.log(res);
 			
-			res.data.forEach(image =>{
+			res.data.content.forEach(image =>{
 				let storyItem = getStoryItem(image);
 				$("#storyList").append(storyItem);
 			})
@@ -23,9 +25,7 @@ function storyLoad() {
 		}).fail(error => {
 			console.log("스토리 로드 실패", error);
 		});
-}
-
-storyLoad();
+}storyLoad();
 
 
 function getStoryItem(image) {
@@ -83,7 +83,18 @@ function getStoryItem(image) {
 
 // (2) 스토리 스크롤 페이징하기
 $(window).scroll(() => {
-
+	console.log("현재 윈도우 scrollTop", $(window).scrollTop());
+	console.log("문서의 높이(고정)", $(document).height());
+	console.log("윈도우 높이(가변)", $(window).height());
+	// 문서의 높이 - 브라우저 창 높이 = scroll 높이 위치(이 값이 스크롤을 브라우저 다 내렸을 때 값이다.) 
+	
+	let checkNum = $(window).scrollTop() - ($(document).height() - $(window).height());
+	console.log(checkNum); // 스크롤을 다 내리면 이 값은 0이 된다.
+	
+	if(checkNum < 1 && checkNum > -1){
+		page++;
+		storyLoad()
+	}
 });
 
 
