@@ -109,23 +109,57 @@ function getSubscribeModalItem(user) {
 
 
 // (3) 유저 프로파일 사진 변경 (완)
-function profileImageUpload() {
+function profileImageUpload(pageUserId, principalId) {
+	
+	// 페이지 유저와 로그인 유저가 다를 경우
+	if(pageUserId != principalId){
+		alert("프로필 사진을 수정할 수 없는 유저입니다.");
+		return;
+	}
+	
+	// input type="file" 클릭 이벤트
 	$("#userProfileImageInput").click();
-
+	
+	// 유저가 프로필 이미지를 변경했을때 감지해서 동작
 	$("#userProfileImageInput").on("change", (e) => {
 		let f = e.target.files[0];
-
+		
+		// 이미지 파일이 아닐 경우
 		if (!f.type.match("image.*")) {
 			alert("이미지를 등록해야 합니다.");
 			return;
 		}
-
-		// 사진 전송 성공시 이미지 변경
-		let reader = new FileReader();
-		reader.onload = (e) => {
-			$("#userProfileImage").attr("src", e.target.result);
-		}
-		reader.readAsDataURL(f); // 이 코드 실행시 reader.onload 실행됨.
+		
+		//서버에 이미지를 전송
+		let profileImageForm = $("#userProfileImageForm")[0]; // foam 태그의 id인데 배열로 받아와야 한다.
+		
+		// formData 객체를 이용하면 form 태그의 필드와 그 값을 나타내는 일련의 key/value 쌍을 담을 수 있다.
+		let formData = new FormData(profileImageForm); // form 태그 안의 데이터가 담긴다. 여기선 이미지가 담김
+		
+		$.ajax({
+			
+			type: "put",
+			url: `/api/user/${principalId}/profileImageUrl`,
+			data: formData,
+			contentType: false,  // ajax로 사진 전송시 필수, x-www-form-urlencoded로 파싱되는 것을 방지
+			processData: false, // ajax로 사진 전송시 필수, contentType을 false로 줬을 때 QueryString 자동 설정됨, 그것을 해제
+			enctype: "multipart-form-data", // form 태그에 entype 타입 기입시 안적어줘도 되는데 가독성 때문에 둘다 해주는게 좋을듯
+			dataType: "json"
+			
+		}).done(res => {
+			
+			// 사진 전송 성공시 이미지 변경
+			let reader = new FileReader();
+			reader.onload = (e) => {
+				$("#userProfileImage").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f); // 이 코드 실행시 reader.onload 실행됨.
+			
+		}).fail(error => {
+			console.log("사진 변경 오류", error);
+			alert("사진 변경이 실패되었습니다");
+		});
+	
 	});
 }
 
