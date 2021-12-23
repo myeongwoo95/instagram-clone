@@ -41,6 +41,10 @@ public class UserService {
 		dto.setSubscribeCount(subscribeCount);
 		dto.setFollowerCount(followerCount);
 		
+		userEntity.getImages().forEach(image->{
+			image.setLikeCount(image.getLikes().size());
+		});
+		
 		return dto;
 	}
 	

@@ -93,7 +93,7 @@
 				
 					</a>
 					<div class="comment">
-						<a href="#" class=""> <i class="fas fa-heart"></i><span>0</span>
+						<a href="#" class=""> <i class="fas fa-heart"></i><span>${image.likeCount}</span>
 						</a>
 					</div>
 				</div>
