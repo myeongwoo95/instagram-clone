@@ -177,7 +177,7 @@ function addComment(imageId) {
 		content: commentInput.val()
 	}
 
-	if (data.content === "") {
+    if (data.content === "") {
 		alert("댓글을 작성해주세요!");
 		return;
 	}
@@ -206,6 +206,7 @@ function addComment(imageId) {
 			commentList.prepend(content);
 		}).fail(error => {
 			console.log("댓글등록 에러", error);
+			alert(error.responseJSON.data.content);
 		});
 		
 		commentInput.val("");
