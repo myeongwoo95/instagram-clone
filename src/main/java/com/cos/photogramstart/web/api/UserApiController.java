@@ -68,21 +68,8 @@ public class UserApiController {
 			BindingResult bindingResult, // 꼭 @Valid가 적혀있는 다음 파라미터에 적어야함
 			@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		
-		if(bindingResult.hasErrors()) {
-			Map<String, String> errorMap = new HashMap<>();
-			
-			for(FieldError error: bindingResult.getFieldErrors()) { // 모든 error를 담는다.
-				errorMap.put(error.getField(), error.getDefaultMessage());
-				System.out.println(error.getDefaultMessage());
-			}
-		
-			throw new CustomValidationApiException("유효성 검사 실패함", errorMap);
-			
-		}else {
 			User userEntity = userService.회원수정(id, userUpdateDto.toEntity()); // service로 전달할 객체 데이터는 항상 Dto가 아니라 Entity!!
 			principalDetails.setUser(userEntity); // ★update 이후에 session 정보를 초기화 해주어야한다. 그래야 바뀐 값이 화면에 적용된다!
 			return new CMRespDto<>(1, "회원수정완료", userEntity); // 응답시에 userEntity의 모든 getter 함수가 호출되고 JSON으로 파싱하여 응답한다.(MessageConverter 발동)
-		}
-		
 	}
 }

@@ -43,27 +43,11 @@ public class AuthController {
 	//첫번째 파라미터에서 에러가 발생하면, 오른쪽 파라미터로 담아준다.
 	public String signup(@Valid SignupDto signupDto, BindingResult bindingResult) {
 		
-		if(bindingResult.hasErrors()) {
-			Map<String, String> errorMap = new HashMap<>();
-			
-			for(FieldError error: bindingResult.getFieldErrors()) { // 모든 error를 담는다.
-				errorMap.put(error.getField(), error.getDefaultMessage());
-				System.out.println(error.getDefaultMessage());
-			}
-			//문자열만 넘어가기 때문에 error Message가 담겨져있는 errorMap을 넘기질 못해서 CustomException을 만들어주고 그걸 사용한다.
-			//throw new RuntimeException("유효성 검사 실패함"); 
-			
-			throw new CustomValidationException("유효성 검사 실패함", errorMap);
-			
-		}else {
 			//User < - signupDto
 			User user = signupDto.toEntity();
 			authService.회원가입(user); // service로 객체 데이터는 항상 Dto가 아니라 Entity!!
 			//System.out.println(userEntity);
 			return "auth/signin";
-		}
-		
 	}
-	
 	
 }
