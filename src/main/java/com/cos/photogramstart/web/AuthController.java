@@ -58,8 +58,8 @@ public class AuthController {
 		}else {
 			//User < - signupDto
 			User user = signupDto.toEntity();
-			User userEntity = authService.회원가입(user); // service로 객체 데이터는 항상 Dto가 아니라 Entity!!
-			System.out.println(userEntity);
+			authService.회원가입(user); // service로 객체 데이터는 항상 Dto가 아니라 Entity!!
+			//System.out.println(userEntity);
 			return "auth/signin";
 		}
 		
