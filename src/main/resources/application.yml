@@ -37,6 +37,7 @@ spring:
       name: test
       password: 1234   
 
+            
 #사용자 정의 키값임
 file:
   path: C:/workspaceSTS/springbootwork/upload/

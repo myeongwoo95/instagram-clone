@@ -158,7 +158,7 @@ function toggleLike(imageId) {
 			
 			likeIcon.removeClass("fas");
 			likeIcon.removeClass("active");
-			likeIcon.addClass("far");
+			likeIcon.addClass("far");	
 			
 		}).fail(error => {
 			console.log("좋아요 취소 에러", error);
